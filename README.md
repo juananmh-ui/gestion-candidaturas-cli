@@ -1,10 +1,33 @@
-# Sistema de Gestión de Candidaturas — CLI (v1.0)
+# JobTrack · Sistema de Gestión de Candidaturas
 
 Proyecto desarrollado para los módulos de **Acceso a Datos** y **Desarrollo de Interfaces** (2º DAM).
 
 ## Integrantes del Equipo
 - **Óscar Ramírez Toro**
 - **Juan Antonio Moreno Hevilla**
+
+---
+
+## Aportación de Óscar Ramírez Toro a la v2.0
+
+Óscar implementó la gestión de candidaturas en JavaFX y la migración de las ofertas a MySQL mediante JDBC. El listado permite combinar filtros por empresa, estado, salario mínimo y fecha de postulación. Desde él se puede abrir el detalle, añadir y editar ofertas, cambiar su estado, eliminar registros e importar el CSV inicial.
+
+| Commit | Aportación |
+| --- | --- |
+| [`25a75a1`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/25a75a175f5cd0d2b25f0b18ec27dc34240cebc2) | Configuración de MySQL y JDBC con HikariCP, esquema relacional y modelo de oferta. |
+| [`1e2113f`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/1e2113f37e1cec8e1d040be781a97d9bdbe0850a) | Repositorio JDBC de ofertas, consultas con `JOIN` y filtros combinables. |
+| [`c847aa5`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/c847aa5037cf1487ef9d2596198f9108d553ff46) | Servicio de ofertas e importación del CSV con una transacción para empresas y ofertas. |
+| [`2e703f2`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/2e703f25422f25a913d03cb0a27923c848bcbc57) | Pantalla principal en JavaFX/FXML, estilos CSS y listado con `TableView`. |
+| [`7e422ee`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/7e422eeeeb9a8ade525f0a9389eaab390b2f4cbf) | Ventana de detalle con los datos de la empresa y el historial de entrevistas de la oferta. |
+| [`e8169a6`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/e8169a6d0a9c9a1d8cee15bd2175e3b9fd0d9908) | Formulario de alta y edición de ofertas con validación de campos. |
+
+El detalle de la oferta muestra la empresa asociada y las entrevistas de esa candidatura. Las pantallas de gestión de **Empresas** y **Entrevistas** corresponden a **Juan Antonio Moreno Hevilla** y están pendientes de integración en esta revisión.
+
+---
+
+## Documentación de la v1.0 (CLI)
+
+La guía de comandos que sigue corresponde a la versión anterior, con persistencia en archivos de texto.
 
 ---
 
