@@ -2,6 +2,8 @@
 
 Proyecto desarrollado para los módulos de **Acceso a Datos** y **Desarrollo de Interfaces** (2º DAM).
 
+JobTrack permite gestionar candidaturas, empresas y entrevistas desde una aplicación de escritorio. La v2.0 usa Java 17 o superior, Maven, JavaFX 21, vistas FXML compatibles con Scene Builder y MySQL mediante JDBC.
+
 ## Integrantes del Equipo
 - **Óscar Ramírez Toro**
 - **Juan Antonio Moreno Hevilla**
@@ -21,13 +23,31 @@ Proyecto desarrollado para los módulos de **Acceso a Datos** y **Desarrollo de 
 | [`7e422ee`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/7e422eeeeb9a8ade525f0a9389eaab390b2f4cbf) | Ventana de detalle con los datos de la empresa y el historial de entrevistas de la oferta. |
 | [`e8169a6`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/e8169a6d0a9c9a1d8cee15bd2175e3b9fd0d9908) | Formulario de alta y edición de ofertas con validación de campos. |
 
-El detalle de la oferta muestra la empresa asociada y las entrevistas de esa candidatura. Las pantallas de gestión de **Empresas** y **Entrevistas** corresponden a **Juan Antonio Moreno Hevilla** y están pendientes de integración en esta revisión.
+## Aportación de Juan Antonio Moreno Hevilla a la v2.0
+
+| Módulo | Aportación |
+| --- | --- |
+| Empresas | Listado con búsqueda por nombre o sector y formulario de alta y edición. Se pueden borrar las empresas sin candidaturas vinculadas. |
+| Entrevistas | Alta, edición y borrado desde el listado general y desde el detalle de una candidatura. Al cerrar la ventana, el detalle actualiza el historial. |
+| Integración | Vistas FXML, validación de formularios y repositorios JDBC. Los módulos se abren desde el menú de la aplicación. |
+
+[Cambios de Empresas y Entrevistas](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/0b18800) · [Plan de desarrollo asistido](docs/plan-desarrollo-v2.md)
+
+## Ejecutar la v2.0
+
+1. Abre el proyecto Maven en IntelliJ IDEA con un JDK 17 o superior.
+2. Ejecuta [schema.sql](src/main/resources/com/dam/jobtrack/schema.sql) en MySQL.
+3. En `src/main/resources/com/dam/jobtrack/`, copia `config.properties.example` como `config.properties`. Configura la URL, el usuario y la contraseña locales. Guarda el archivo como UTF-8.
+4. En la Terminal integrada de IntelliJ, desde la raíz del proyecto, ejecuta `mvn javafx:run`.
+5. En el listado de ofertas, pulsa **Importar CSV** y selecciona [candidaturas_externas.csv](candidaturas_externas.csv). Guarda los CSV que prepares como UTF-8 para conservar caracteres como la ñ y las tildes.
+
+El [prototipo de JobTrack de la v1.0](https://www.figma.com/design/jGDqg0K7VzvOMhwHnP2V9z/Gesti%C3%B3n-de-Candidaturas---Prototipo-v1.0?node-id=3-4) sirvió de referencia para las pantallas.
 
 ---
 
 ## Documentación de la v1.0 (CLI)
 
-La guía de comandos que sigue corresponde a la versión anterior, con persistencia en archivos de texto.
+La guía de comandos que sigue corresponde a la versión anterior, con persistencia en archivos de texto. Su [código fuente está en la revisión `34dfa42`](https://github.com/OscarRamirezToro/gestion-candidaturas-cli/commit/34dfa42a68868aba5ad7ce3808d6f0744cf3fb2c).
 
 ---
 
@@ -84,7 +104,7 @@ El sistema valida todas las entradas por línea de comandos y la integridad de l
 - **Argumentos incompletos o desconocidos:** Muestra mensaje descriptivo con la sintaxis correcta.
 - **Registro no encontrado:** Avisa si un ID consultado o a borrar no existe en el fichero.
 - **Fichero no encontrado:** Controla la ausencia del fichero CSV a importar sin exponer la traza de error (`stackTrace`).
-- **Formato de datos erróneo:** Valida que las fechas sigan el patrón `dd/MM/yy` y los IDs sean valores numéricos válidos.
+- **Formato de datos erróneo:** Valida que las fechas sigan el patrón `dd/MM/yyyy` y los IDs sean valores numéricos válidos.
 ## Arquitectura y principios SOLID
 - **S (Single Responsibility):** Separación nítida entre el modelo de dominio, el repositorio de acceso a archivos, el analizador de comandos (Command Parser) y el formateador de salida.
 - **O (Open/Closed):** Comandos estructurados mediante el patrón Command, facilitando la adición de nuevas operaciones sin modificar las existentes.

@@ -6,9 +6,11 @@ import com.dam.jobtrack.repository.OfertaDAO;
 
 import javax.sql.DataSource;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -80,14 +82,17 @@ public class OfertaService {
     public int importarDesdeCsv(String rutaCsv) {
         int registrosImportados = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaCsv));
+        try (BufferedReader br = Files.newBufferedReader(Path.of(rutaCsv), StandardCharsets.UTF_8);
              Connection conn = dataSource.getConnection()) {
 
             conn.setAutoCommit(false); // Iniciar transacción manual
 
             try {
-                String linea;
-                while ((linea = br.readLine()) != null) {
+                String linea = br.readLine();
+                if (linea != null && linea.startsWith("\uFEFF")) {
+                    linea = linea.substring(1);
+                }
+                for (; linea != null; linea = br.readLine()) {
                     if (linea.isBlank() || linea.startsWith("#") || linea.toLowerCase().startsWith("titulo")) {
                         continue; // Omitir líneas vacías, comentarios o cabeceras
                     }

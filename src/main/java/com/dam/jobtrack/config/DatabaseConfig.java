@@ -6,6 +6,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -20,7 +22,7 @@ public class DatabaseConfig {
             if (is == null) {
                 throw new DatabaseException("No se encontró el archivo config.properties en resources");
             }
-            props.load(is);
+            props.load(new InputStreamReader(is, StandardCharsets.UTF_8));
 
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(props.getProperty("db.url"));

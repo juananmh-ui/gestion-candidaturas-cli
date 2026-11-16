@@ -1,0 +1,4 @@
+db.url=jdbc:mysql://localhost:3306/jobtrack_db?characterEncoding=UTF-8&serverTimezone=UTC
+db.user=jobtrack
+db.password=
+db.pool.size=10
