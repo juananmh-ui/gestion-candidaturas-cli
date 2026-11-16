@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.dam.jobtrack.controller.GestionEntrevistasController"
+            stylesheets="@estilos.css" prefWidth="1000" prefHeight="570">
+    <padding>
+        <Insets top="22" right="24" bottom="20" left="24"/>
+    </padding>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Label fx:id="encabezado" text="Gestión de entrevistas" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0F172A;" wrapText="true"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Cerrar" styleClass="btn-secondary" onAction="#cerrar"/>
+        </HBox>
+    </top>
+    <center>
+        <HBox spacing="18">
+            <BorderPane.margin>
+                <Insets top="18" bottom="12"/>
+            </BorderPane.margin>
+            <VBox spacing="12" HBox.hgrow="ALWAYS">
+                <Button text="+ Nueva entrevista" styleClass="btn-primary" onAction="#nueva"/>
+                <TableView fx:id="tabla" VBox.vgrow="ALWAYS" minWidth="398">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="colFecha" text="Fecha" prefWidth="105"/>
+                        <TableColumn fx:id="colOferta" text="Candidatura" prefWidth="190"/>
+                        <TableColumn fx:id="colTipo" text="Tipo" prefWidth="120"/>
+                        <TableColumn fx:id="colResultado" text="Resultado" prefWidth="110"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No hay entrevistas que mostrar."/>
+                    </placeholder>
+                </TableView>
+                <Button fx:id="borrar" text="Borrar entrevista" styleClass="btn-danger" onAction="#borrar"/>
+            </VBox>
+            <VBox spacing="8" prefWidth="325" minWidth="275"
+                  style="-fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-radius: 8; -fx-background-radius: 8;">
+                <padding>
+                    <Insets top="16" right="16" bottom="16" left="16"/>
+                </padding>
+                <Label fx:id="tituloFormulario" text="Nueva entrevista"
+                       style="-fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+                <Label text="Candidatura *"/>
+                <ComboBox fx:id="oferta" promptText="Selecciona una candidatura" maxWidth="Infinity"
+                          accessibleText="Candidatura asociada"/>
+                <Label text="Fecha *"/>
+                <DatePicker fx:id="fecha" editable="false" maxWidth="Infinity" accessibleText="Fecha de la entrevista"/>
+                <Label text="Tipo *"/>
+                <TextField fx:id="tipo" promptText="Ej. Técnica" accessibleText="Tipo de entrevista"/>
+                <Label text="Resultado"/>
+                <TextField fx:id="resultado" accessibleText="Resultado"/>
+                <Label text="Notas"/>
+                <TextArea fx:id="notas" prefRowCount="3" wrapText="true" accessibleText="Notas de la entrevista"/>
+                <Button text="Guardar" styleClass="btn-primary" onAction="#guardar"/>
+            </VBox>
+        </HBox>
+    </center>
+    <bottom>
+        <Label fx:id="aviso" wrapText="true" style="-fx-text-fill: #334155;"/>
+    </bottom>
+</BorderPane>

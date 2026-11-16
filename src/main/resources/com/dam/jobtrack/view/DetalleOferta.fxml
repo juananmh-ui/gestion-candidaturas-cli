@@ -77,7 +77,11 @@
         <!-- Bloque inferior: Entrevistas asociadas y Notas -->
         <VBox spacing="8.0" style="-fx-background-color: #FFFFFF; -fx-padding: 16px; -fx-background-radius: 8px; -fx-border-color: #E2E8F0; -fx-border-radius: 8px;" VBox.vgrow="ALWAYS">
             <children>
-                <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #0F172A;" text="Historial de Entrevistas Asociadas" />
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #0F172A;" text="Historial de Entrevistas Asociadas" />
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#handleGestionarEntrevistas" styleClass="btn-secondary" text="Gestionar entrevistas"/>
+                </HBox>
                 <TableView fx:id="tablaEntrevistas" prefHeight="145.0" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colEntFecha" prefWidth="110.0" text="Fecha" />

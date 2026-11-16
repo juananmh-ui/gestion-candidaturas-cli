@@ -46,7 +46,7 @@ public class Oferta {
     }
 
     public void setIdEmpresa(Integer idEmpresa) {
-        this.id = idEmpresa;
+        this.idEmpresa = idEmpresa;
     }
 
     public String getNombreEmpresa() {

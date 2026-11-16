@@ -2,6 +2,7 @@ package com.dam.jobtrack.App;
 
 import com.dam.jobtrack.controller.DetalleOfertaController;
 import com.dam.jobtrack.controller.FormularioOfertaController;
+import com.dam.jobtrack.controller.GestionEntrevistasController;
 import com.dam.jobtrack.controller.ListadoOfertasController;
 import com.dam.jobtrack.model.Oferta;
 import javafx.application.Application;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -21,7 +23,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/dam/jobtrack/view/ListadoOfertas.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/dam/jobtrack/view/listadoOfertas.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setTitle("JobTrack - Sistema de Gestión de Candidaturas (v2.0)");
@@ -72,11 +74,46 @@ public class App extends Application {
     }
 
     public static void abrirVentanaEmpresas() {
-        // Módulo asignado al compañero Juan Antonio
+        try {
+            Parent vista = FXMLLoader.load(App.class.getResource("/com/dam/jobtrack/view/GestionEmpresas.fxml"));
+            mostrarGestion(vista, "Gestión de empresas", primaryStage);
+        } catch (IOException error) {
+            mostrarErrorGestion("No se pudo abrir la gestión de empresas.", primaryStage);
+        }
     }
 
     public static void abrirVentanaEntrevistas() {
-        // Módulo asignado al compañero Juan Antonio
+        abrirVentanaEntrevistas(null, primaryStage);
+    }
+
+    public static void abrirVentanaEntrevistas(Oferta candidatura, Window propietario) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/dam/jobtrack/view/GestionEntrevistas.fxml"));
+            Parent vista = loader.load();
+            GestionEntrevistasController controller = loader.getController();
+            controller.abrir(candidatura);
+            mostrarGestion(vista, "Gestión de entrevistas", propietario);
+        } catch (IOException error) {
+            mostrarErrorGestion("No se pudo abrir la gestión de entrevistas.", propietario);
+        }
+    }
+
+    private static void mostrarGestion(Parent vista, String titulo, Window propietario) {
+        Stage ventana = new Stage();
+        ventana.setTitle(titulo);
+        ventana.initOwner(propietario);
+        ventana.initModality(Modality.WINDOW_MODAL);
+        ventana.setScene(new Scene(vista));
+        ventana.setMinWidth(800);
+        ventana.setMinHeight(560);
+        ventana.showAndWait();
+    }
+
+    private static void mostrarErrorGestion(String texto, Window propietario) {
+        Alert aviso = new Alert(Alert.AlertType.ERROR, texto);
+        aviso.initOwner(propietario);
+        aviso.setHeaderText(null);
+        aviso.showAndWait();
     }
 
     public static void main(String[] args) {

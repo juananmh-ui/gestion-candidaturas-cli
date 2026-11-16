@@ -133,6 +133,12 @@ public class DetalleOfertaController {
     }
 
     @FXML
+    private void handleGestionarEntrevistas() {
+        App.abrirVentanaEntrevistas(ofertaActual, tablaEntrevistas.getScene().getWindow());
+        cargarDatosEmpresaYEntrevistas(ofertaActual.getIdEmpresa(), ofertaActual.getId());
+    }
+
+    @FXML
     private void handleEditarOferta() {
         handleCerrar();
         App.abrirFormularioOferta(ofertaActual, listadoController);
