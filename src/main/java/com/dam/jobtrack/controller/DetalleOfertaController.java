@@ -5,6 +5,7 @@ import com.dam.jobtrack.config.DatabaseConfig;
 import com.dam.jobtrack.exception.DatabaseException;
 import com.dam.jobtrack.model.EntrevistaResumen;
 import com.dam.jobtrack.model.Oferta;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -141,7 +142,7 @@ public class DetalleOfertaController {
     @FXML
     private void handleEditarOferta() {
         handleCerrar();
-        App.abrirFormularioOferta(ofertaActual, listadoController);
+        Platform.runLater(() -> App.abrirFormularioOferta(ofertaActual, listadoController));
     }
 
     @FXML
