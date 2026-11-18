@@ -43,6 +43,16 @@ JobTrack permite gestionar candidaturas, empresas y entrevistas desde una aplica
 
 El [prototipo de JobTrack de la v1.0](https://www.figma.com/design/jGDqg0K7VzvOMhwHnP2V9z/Gesti%C3%B3n-de-Candidaturas---Prototipo-v1.0?node-id=3-4) sirvió de referencia para las pantallas.
 
+## Rama de trabajo de la v3.0
+
+La rama `codex/v3-estadisticas-contactos` incorpora tres aportaciones asociadas a Juan Antonio Moreno Hevilla. La primera lleva a Hibernate y JPQL las consultas de estadísticas. La segunda muestra los recuentos y la tasa de éxito en un panel JavaFX. La tercera incorpora el alta, la edición y el borrado de contactos vinculados a empresas.
+
+Para probar esta rama, usa un JDK 24 o superior y sigue la configuración de MySQL de la v2.0. Ejecuta también [schema-v3.sql](src/main/resources/com/dam/jobtrack/schema-v3.sql) sobre la base configurada. Arranca con `mvn javafx:run` y abre **Estadísticas** o **Contactos** desde el menú.
+
+Quedan pendientes la migración del resto de operaciones a Hibernate, los vínculos directos de contactos con ofertas, las notas por candidatura y el asistente con Ollama4j.
+
+Para estas aportaciones se utilizó un asistente de código. El encargo fue «haz los commits que me faltan» en continuidad con la v2.0. El plan fue implementar primero las consultas JPQL, conectarlas a una vista FXML y añadir después Contactos con su esquema y formulario. Las comprobaciones se hicieron en una base MySQL de prueba.
+
 ---
 
 ## Documentación de la v1.0 (CLI)

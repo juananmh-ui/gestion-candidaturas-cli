@@ -21,6 +21,9 @@ public class EmpresaJpa {
     @OneToMany(mappedBy = "empresa")
     private List<OfertaJpa> ofertas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "empresa")
+    private List<ContactoJpa> contactos = new ArrayList<>();
+
     protected EmpresaJpa() {
     }
 

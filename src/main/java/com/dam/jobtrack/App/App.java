@@ -102,6 +102,15 @@ public class App extends Application {
         }
     }
 
+    public static void abrirVentanaContactos() {
+        try {
+            Parent vista = FXMLLoader.load(App.class.getResource("/com/dam/jobtrack/view/Contactos.fxml"));
+            mostrarGestion(vista, "Contactos profesionales", primaryStage);
+        } catch (IOException error) {
+            mostrarErrorGestion("No se pudo abrir la gestión de contactos.", primaryStage);
+        }
+    }
+
     public static void abrirVentanaEntrevistas() {
         abrirVentanaEntrevistas(null, primaryStage);
     }

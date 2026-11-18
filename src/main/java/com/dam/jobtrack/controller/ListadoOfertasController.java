@@ -185,6 +185,11 @@ public class ListadoOfertasController implements Initializable {
     }
 
     @FXML
+    private void handleAbrirContactos() {
+        App.abrirVentanaContactos();
+    }
+
+    @FXML
     private void handleAbrirEmpresas() {
         App.abrirVentanaEmpresas();
         handleFiltrar();
