@@ -1,5 +1,7 @@
 package com.dam.jobtrack.App;
 
+import com.dam.jobtrack.config.DatabaseConfig;
+import com.dam.jobtrack.config.JpaConfig;
 import com.dam.jobtrack.controller.DetalleOfertaController;
 import com.dam.jobtrack.controller.FormularioOfertaController;
 import com.dam.jobtrack.controller.GestionEntrevistasController;
@@ -19,6 +21,15 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Stage primaryStage;
+
+    @Override
+    public void stop() {
+        try {
+            JpaConfig.close();
+        } finally {
+            DatabaseConfig.close();
+        }
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -79,6 +90,15 @@ public class App extends Application {
             mostrarGestion(vista, "Gestión de empresas", primaryStage);
         } catch (IOException error) {
             mostrarErrorGestion("No se pudo abrir la gestión de empresas.", primaryStage);
+        }
+    }
+
+    public static void abrirVentanaEstadisticas() {
+        try {
+            Parent vista = FXMLLoader.load(App.class.getResource("/com/dam/jobtrack/view/Estadisticas.fxml"));
+            mostrarGestion(vista, "Estadísticas de candidaturas", primaryStage);
+        } catch (IOException error) {
+            mostrarErrorGestion("No se pudo abrir el panel de estadísticas.", primaryStage);
         }
     }
 

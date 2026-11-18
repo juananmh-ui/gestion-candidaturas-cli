@@ -16,6 +16,7 @@
                 <Button maxWidth="Infinity" styleClass="sidebar-btn" text="📋 Ofertas" />
                 <Button maxWidth="Infinity" onAction="#handleAbrirEmpresas" styleClass="sidebar-btn" text="🏢 Empresas" />
                 <Button maxWidth="Infinity" onAction="#handleAbrirEntrevistas" styleClass="sidebar-btn" text="📅 Entrevistas" />
+                <Button maxWidth="Infinity" onAction="#handleAbrirEstadisticas" styleClass="sidebar-btn" text="Estadísticas" />
                 <Region VBox.vgrow="ALWAYS" />
                 <Label style="-fx-text-fill: #64748B; -fx-font-size: 11px;" text="Óscar Ramírez Toro" />
                 <Label style="-fx-text-fill: #64748B; -fx-font-size: 11px;" text="Juan A. Moreno Hevilla" />
