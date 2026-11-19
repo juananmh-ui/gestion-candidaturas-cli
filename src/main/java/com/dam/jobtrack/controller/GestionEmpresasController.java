@@ -5,6 +5,7 @@ import com.dam.jobtrack.exception.DatabaseException;
 import com.dam.jobtrack.model.Empresa;
 import com.dam.jobtrack.repository.EmpresaRepositoryJdbc;
 import com.dam.jobtrack.service.ValidacionGestion;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -20,10 +21,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public final class GestionEmpresasController {
+    private static final Pattern TILDES = Pattern.compile("\\p{M}+");
     private final EmpresaRepositoryJdbc repositorio = new EmpresaRepositoryJdbc(DatabaseConfig.getDataSource());
     private final ObservableList<Empresa> empresas = FXCollections.observableArrayList();
 
@@ -32,6 +36,7 @@ public final class GestionEmpresasController {
     @FXML private TableColumn<Empresa, String> colSector;
     @FXML private TableColumn<Empresa, LocalDate> colFecha;
     @FXML private TextField buscar;
+    @FXML private Label sinResultados;
     @FXML private Label tituloFormulario;
     @FXML private TextField nombre;
     @FXML private TextField sector;
@@ -51,6 +56,11 @@ public final class GestionEmpresasController {
             filtradas.setPredicate(empresa -> filtro.isEmpty()
                     || normalizar(empresa.nombre()).contains(filtro) || normalizar(empresa.sector()).contains(filtro));
         });
+        sinResultados.textProperty().bind(Bindings.createStringBinding(
+                () -> normalizar(buscar.getText()).isEmpty()
+                        ? "No hay empresas registradas."
+                        : "Ninguna empresa coincide con el filtro.",
+                buscar.textProperty()));
         SortedList<Empresa> ordenadas = new SortedList<>(filtradas);
         ordenadas.comparatorProperty().bind(tabla.comparatorProperty());
         tabla.setItems(ordenadas);
@@ -59,6 +69,12 @@ public final class GestionEmpresasController {
         borrar.disableProperty().bind(tabla.getSelectionModel().selectedItemProperty().isNull());
         mostrarFormulario(null);
         recargar("");
+    }
+
+    @FXML
+    private void limpiarBusqueda() {
+        buscar.clear();
+        buscar.requestFocus();
     }
 
     @FXML
@@ -83,7 +99,6 @@ public final class GestionEmpresasController {
                 repositorio.update(empresa);
             }
             nueva();
-            buscar.clear();
             recargar("Empresa guardada.");
         } catch (IllegalArgumentException | DatabaseException error) {
             aviso.setText(error.getMessage());
@@ -129,6 +144,10 @@ public final class GestionEmpresasController {
     }
 
     private static String normalizar(String texto) {
-        return texto == null ? "" : texto.strip().toLowerCase(Locale.ROOT);
+        if (texto == null) {
+            return "";
+        }
+        String descompuesto = Normalizer.normalize(texto.strip().toLowerCase(Locale.ROOT), Normalizer.Form.NFD);
+        return TILDES.matcher(descompuesto).replaceAll("");
     }
 }

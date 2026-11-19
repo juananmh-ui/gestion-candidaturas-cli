@@ -26,6 +26,8 @@
                 <HBox spacing="8">
                     <TextField fx:id="buscar" promptText="Filtrar por nombre o sector" HBox.hgrow="ALWAYS"
                                accessibleText="Filtrar empresas por nombre o sector"/>
+                    <Button text="Limpiar" styleClass="btn-secondary" onAction="#limpiarBusqueda"
+                            accessibleText="Limpiar el filtro de empresas"/>
                     <Button text="+ Nueva empresa" styleClass="btn-primary" onAction="#nueva"/>
                 </HBox>
                 <TableView fx:id="tabla" VBox.vgrow="ALWAYS" minWidth="398">
@@ -38,7 +40,7 @@
                         <TableColumn fx:id="colFecha" text="Fecha de registro" prefWidth="135"/>
                     </columns>
                     <placeholder>
-                        <Label text="No hay empresas que mostrar."/>
+                        <Label fx:id="sinResultados"/>
                     </placeholder>
                 </TableView>
                 <Button fx:id="borrar" text="Borrar empresa" styleClass="btn-danger" onAction="#borrar"/>
