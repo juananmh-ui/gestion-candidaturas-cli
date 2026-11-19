@@ -30,9 +30,10 @@
                     </columnResizePolicy>
                     <columns>
                         <TableColumn fx:id="colFecha" text="Fecha" prefWidth="105"/>
-                        <TableColumn fx:id="colOferta" text="Candidatura" prefWidth="190"/>
-                        <TableColumn fx:id="colTipo" text="Tipo" prefWidth="120"/>
-                        <TableColumn fx:id="colResultado" text="Resultado" prefWidth="110"/>
+                        <TableColumn fx:id="colOferta" text="Candidatura" prefWidth="150"/>
+                        <TableColumn fx:id="colEmpresa" text="Empresa" prefWidth="125"/>
+                        <TableColumn fx:id="colTipo" text="Tipo" prefWidth="100"/>
+                        <TableColumn fx:id="colResultado" text="Resultado" prefWidth="100"/>
                     </columns>
                     <placeholder>
                         <Label text="No hay entrevistas que mostrar."/>

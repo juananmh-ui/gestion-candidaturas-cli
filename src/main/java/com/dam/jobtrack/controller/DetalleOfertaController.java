@@ -2,9 +2,11 @@ package com.dam.jobtrack.controller;
 
 import com.dam.jobtrack.App.App;
 import com.dam.jobtrack.config.DatabaseConfig;
-import com.dam.jobtrack.exception.DatabaseException;
+import com.dam.jobtrack.model.Empresa;
 import com.dam.jobtrack.model.EntrevistaResumen;
 import com.dam.jobtrack.model.Oferta;
+import com.dam.jobtrack.repository.EmpresaRepositoryJdbc;
+import com.dam.jobtrack.repository.EntrevistaRepositoryJdbc;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,10 +18,6 @@ import javafx.stage.Stage;
 
 import java.awt.Desktop;
 import java.net.URI;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class DetalleOfertaController {
@@ -44,15 +42,15 @@ public class DetalleOfertaController {
 
     private Oferta ofertaActual;
     private ListadoOfertasController listadoController;
+    private final EmpresaRepositoryJdbc empresas = new EmpresaRepositoryJdbc(DatabaseConfig.getDataSource());
+    private final EntrevistaRepositoryJdbc entrevistas = new EntrevistaRepositoryJdbc(DatabaseConfig.getDataSource());
     private final ObservableList<EntrevistaResumen> entrevistasData = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
         colEntFecha.setCellValueFactory(cell -> new SimpleObjectProperty<>(cell.getValue().fecha()));
         colEntTipo.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().tipo()));
-        colEntResultado.setCellValueFactory(cell -> new SimpleStringProperty(
-                cell.getValue().resultado() != null ? cell.getValue().resultado() : "Pendiente"
-        ));
+        colEntResultado.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().resultado()));
         colEntNotas.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().notas()));
         tablaEntrevistas.setItems(entrevistasData);
     }
@@ -71,45 +69,20 @@ public class DetalleOfertaController {
         txtDescripcion.setText(oferta.getDescripcion() != null ? oferta.getDescripcion() : "");
         txtNotas.setText(oferta.getNotas() != null ? oferta.getNotas() : "");
 
-        cargarDatosEmpresaYEntrevistas(oferta.getIdEmpresa(), oferta.getId());
+        cargarEmpresa(oferta.getIdEmpresa());
+        cargarEntrevistas();
     }
 
-    private void cargarDatosEmpresaYEntrevistas(int idEmpresa, int idOferta) {
-        String sqlEmpresa = "SELECT nombre, sector, web FROM EMPRESA WHERE id = ?";
-        String sqlEntrevistas = "SELECT id, fecha, tipo, resultado, notas FROM ENTREVISTA WHERE id_oferta = ? ORDER BY fecha ASC";
+    private void cargarEmpresa(int idEmpresa) {
+        var empresa = empresas.findById(idEmpresa);
+        lblEmpresaNombre.setText(empresa.map(Empresa::nombre).orElse("-"));
+        lblEmpresaSector.setText(empresa.map(Empresa::sector).orElse("-"));
+        lblEmpresaWeb.setText(empresa.map(Empresa::web).orElse("-"));
+    }
 
-        try (Connection conn = DatabaseConfig.getConnection()) {
-            // 1. Cargar datos de empresa
-            try (PreparedStatement psEmp = conn.prepareStatement(sqlEmpresa)) {
-                psEmp.setInt(1, idEmpresa);
-                try (ResultSet rs = psEmp.executeQuery()) {
-                    if (rs.next()) {
-                        lblEmpresaNombre.setText(rs.getString("nombre"));
-                        lblEmpresaSector.setText(rs.getString("sector") != null ? rs.getString("sector") : "-");
-                        lblEmpresaWeb.setText(rs.getString("web") != null ? rs.getString("web") : "-");
-                    }
-                }
-            }
-
-            // 2. Cargar entrevistas asociadas
-            entrevistasData.clear();
-            try (PreparedStatement psEnt = conn.prepareStatement(sqlEntrevistas)) {
-                psEnt.setInt(1, idOferta);
-                try (ResultSet rs = psEnt.executeQuery()) {
-                    while (rs.next()) {
-                        entrevistasData.add(new EntrevistaResumen(
-                                rs.getInt("id"),
-                                rs.getDate("fecha").toLocalDate(),
-                                rs.getString("tipo"),
-                                rs.getString("resultado"),
-                                rs.getString("notas")
-                        ));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Error cargando detalle relacional de la oferta", e);
-        }
+    private void cargarEntrevistas() {
+        entrevistasData.setAll(entrevistas.findByOferta(ofertaActual.getId()).stream()
+                .map(EntrevistaResumen::desde).toList());
     }
 
     private void aplicarEstiloBadge(String estado) {
@@ -136,7 +109,7 @@ public class DetalleOfertaController {
     @FXML
     private void handleGestionarEntrevistas() {
         App.abrirVentanaEntrevistas(ofertaActual, tablaEntrevistas.getScene().getWindow());
-        cargarDatosEmpresaYEntrevistas(ofertaActual.getIdEmpresa(), ofertaActual.getId());
+        cargarEntrevistas();
     }
 
     @FXML

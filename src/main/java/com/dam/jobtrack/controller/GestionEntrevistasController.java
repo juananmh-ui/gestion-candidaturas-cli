@@ -38,6 +38,7 @@ public final class GestionEntrevistasController {
     @FXML private TableView<Entrevista> tabla;
     @FXML private TableColumn<Entrevista, LocalDate> colFecha;
     @FXML private TableColumn<Entrevista, String> colOferta;
+    @FXML private TableColumn<Entrevista, String> colEmpresa;
     @FXML private TableColumn<Entrevista, String> colTipo;
     @FXML private TableColumn<Entrevista, String> colResultado;
     @FXML private Label encabezado;
@@ -54,11 +55,9 @@ public final class GestionEntrevistasController {
     private void initialize() {
         colFecha.setCellValueFactory(fila -> new ReadOnlyObjectWrapper<>(fila.getValue().fecha()));
         colOferta.setCellValueFactory(fila -> new ReadOnlyStringWrapper(fila.getValue().oferta()));
+        colEmpresa.setCellValueFactory(fila -> new ReadOnlyStringWrapper(fila.getValue().empresa()));
         colTipo.setCellValueFactory(fila -> new ReadOnlyStringWrapper(fila.getValue().tipo()));
-        colResultado.setCellValueFactory(fila -> {
-            String valor = fila.getValue().resultado();
-            return new ReadOnlyStringWrapper(valor == null ? "Pendiente" : valor);
-        });
+        colResultado.setCellValueFactory(fila -> new ReadOnlyStringWrapper(fila.getValue().resultadoVisible()));
         tabla.getSelectionModel().selectedItemProperty().addListener((observable, anterior, seleccion) ->
                 mostrarFormulario(seleccion));
         borrar.disableProperty().bind(tabla.getSelectionModel().selectedItemProperty().isNull());
