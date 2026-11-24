@@ -25,13 +25,15 @@ JobTrack permite gestionar candidaturas, empresas y entrevistas desde una aplica
 
 ## Aportación de Juan Antonio Moreno Hevilla a la v2.0
 
-| Módulo | Aportación |
-| --- | --- |
-| Empresas | Listado con búsqueda por nombre o sector y formulario de alta y edición. Se pueden borrar las empresas sin candidaturas vinculadas. |
-| Entrevistas | Alta, edición y borrado desde el listado general y desde el detalle de una candidatura. Al cerrar la ventana, el detalle actualiza el historial. |
-| Integración | Vistas FXML, validación de formularios y repositorios JDBC. Los módulos se abren desde el menú de la aplicación. |
+Los siguientes cinco commits recogen los cambios de Juan Antonio en la v2.0.
 
-[Cambios de Empresas y Entrevistas](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/0b18800) · [Plan de desarrollo asistido](docs/plan-desarrollo-v2.md)
+| Commit | Aportación |
+| --- | --- |
+| [Gestión de empresas y entrevistas](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/0b188007aa59f999f532aaccc87ad46e7038c307) | Añade al menú la gestión de empresas y entrevistas, con formularios JavaFX, validación y persistencia mediante JDBC. Solo se pueden borrar empresas sin candidaturas vinculadas. |
+| [UTF-8 y configuración de MySQL](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/7b1a78e04cc4eca02ab36a6d6d75f79f581f55ad) | Lee la configuración de conexión y los CSV en UTF-8 para conservar tildes y eñes. Añade un archivo de configuración de ejemplo. |
+| [Edición desde el detalle](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/c9dbc0ba91eabe520efc1f42196222f451b07445) | Cierra la ventana de detalle antes de abrir el formulario de edición con los datos de la candidatura seleccionada. |
+| [Búsqueda de empresas](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/674034ee3709115385f0ea400ea3e5cf4d6438ed) | Permite buscar por nombre o sector sin distinguir tildes ni mayúsculas, conserva el filtro al guardar e incorpora un botón para limpiarlo. |
+| [Historial de entrevistas](https://github.com/juananmh-ui/gestion-candidaturas-cli/commit/5171d0c0032d47465d077db9fd699d23f5a22b18) | Muestra la empresa en el listado general y usa «Pendiente» en ambas vistas cuando aún no hay resultado. El detalle recarga el historial al cerrar la gestión de entrevistas. |
 
 ## Ejecutar la v2.0
 
